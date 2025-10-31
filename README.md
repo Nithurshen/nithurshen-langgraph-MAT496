@@ -77,4 +77,66 @@ I've learned the fundamentals of setting up a LangChain environment and interact
 
 ![l3_m4_3](https://github.com/Nithurshen/nithurshen-langgraph-MAT496/blob/main/module_4/lesson_3/l3_m4_3.png)
 
-* <b>Lesson 4:</b> I've learned how to combine human-in-the-loop, sub-graphs, and map-reduce patterns to build a complex multi-agent system. The course demonstrated two main concepts: using Send to dynamically map sub-graphs in parallel and using an interrupt and conditional logic to allow for human feedback. I practiced this by building my own custom F1 race strategy research assistant graph. This graph first called create_engineers to generate a list of "Race Engineer" personas based on the race_name. This showed the human-in-the-loop concept, as the graph then interrupted at my race_director_review node, which allowed me to provide feedback ("Add in a tyre degradation expert from Pirelli") and force the graph to loop back and regenerate the engineers before I approved the final list. Furthermore, I implemented the map-reduce pattern by using a conditional edge (initiate_all_simulations) to Send my run_simulation_debrief sub-graph to each of the generated engineers in parallel. This replicated the lesson's practical example (which used "Analysts" and an "Interview" sub-graph) by showing how each sub-graph could run its own internal multi-step process (like ask_strategy_question -> search_web -> generate_answer) to produce a memo. The lesson also emphasized the "reduce" phase, which I implemented by having three parallel nodes (write_strategy_summary, write_pre_race_briefing, write_final_recommendation) consume the aggregated strategy_memos from the map step, before a final finalize_strategy_report node combined all their outputs into a single document. 
+* <b>Lesson 4:</b> I've learned how to combine human-in-the-loop, sub-graphs, and map-reduce patterns to build a complex multi-agent system. The course demonstrated two main concepts: using Send to dynamically map sub-graphs in parallel and using an interrupt and conditional logic to allow for human feedback. I practiced this by building my own custom F1 race strategy research assistant graph. This graph first called create_engineers to generate a list of "Race Engineer" personas based on the race_name. This showed the human-in-the-loop concept, as the graph then interrupted at my race_director_review node, which allowed me to provide feedback ("Add in a tyre degradation expert from Pirelli") and force the graph to loop back and regenerate the engineers before I approved the final list. Furthermore, I implemented the map-reduce pattern by using a conditional edge (initiate_all_simulations) to Send my run_simulation_debrief sub-graph to each of the generated engineers in parallel. This replicated the lesson's practical example (which used "Analysts" and an "Interview" sub-graph) by showing how each sub-graph could run its own internal multi-step process (like ask_strategy_question -> search_web -> generate_answer) to produce a memo. The lesson also emphasized the "reduce" phase, which I implemented by having three parallel nodes (write_strategy_summary, write_pre_race_briefing, write_final_recommendation) consume the aggregated strategy_memos from the map step, before a final finalize_strategy_report node combined all their outputs into a single document. (https://github.com/Nithurshen/nithurshen-langgraph-MAT496/blob/main/module_4/lesson_4/my_example_of_research-assistant.ipynb)
+
+![l4_m4](https://github.com/Nithurshen/nithurshen-langgraph-MAT496/blob/main/module_4/lesson_4/l4_m4.png)
+
+**Generated Report:**
+```
+Strategic Insights for Tire Management at Monaco: Optimizing Pit Stops and Compound Choices
+Key Insights
+Monaco’s unique circuit layout, characterized by tight corners and limited overtaking opportunities, demands meticulous tire management to maximize race performance. The simulation data reveals several critical points that can inform strategic decisions:
+
+Tire Compound Characteristics and Degradation Patterns:
+
+The soft tire compounds (C5 and C6) offer the fastest lap times due to their quick warm-up and high grip but suffer from rapid degradation, typically lasting only 15-20 laps. The ultra-soft C6, despite its initial speed advantage, has a notably narrow operating window with worse degradation and minimal grip increase, often lasting only about half a lap before performance drops significantly [1][2].
+Medium tires (C2) strike a balance, providing good durability (25-35 laps) and competitive lap times, making them a versatile choice for Monaco’s conditions. Hard tires (C0) are the most durable, capable of exceeding 40 laps, but their slower pace makes them less attractive unless a one-stop strategy is viable [1][2].
+Impact of Tire Degradation on Race Strategy:
+
+Degradation reduces grip over time, leading to slower lap times and shorter stints. Managing this degradation is crucial, especially in Monaco, where overtaking is limited, and maintaining track position is vital [3].
+Fresh tires can outperform severely degraded softer compounds, emphasizing the importance of precise pit stop timing. Teams must weigh the benefits of early pit stops for fresh softs against the risk of losing track position, especially given the limited overtaking opportunities [3].
+Track-Specific Considerations:
+
+Monaco’s abrasive surface and high lateral loads accelerate tire wear, making durability a key factor. The low degradation observed in recent races suggests that the new C6 soft compound may last longer than previous softs, potentially allowing for fewer stops [4].
+The recent rule change requiring at least three different tire sets per race increases strategic complexity, discouraging starting on mediums due to the need for multiple pit stops, and favoring soft or ultra-soft starts for shorter stints [4].
+Overtaking and Pit Stop Strategy:
+
+Overtaking opportunities are limited, but strategic use of tire degradation and pit stops can create overtaking chances, especially if a driver can survive on soft tires longer than expected or capitalize on safety cars.
+The simulation indicates that aggressive soft tire runs early in the race, combined with well-timed pit stops, can help gain track position, especially if a safety car appears at the right moment [4].
+In summary, Monaco’s strategic landscape favors a nuanced approach: leveraging the ultra-soft C6 for short, aggressive stints, balancing durability with performance, and timing pit stops to exploit safety cars or tire degradation patterns. Teams that optimize tire choice and pit timing will have a significant advantage in this challenging circuit.
+
+Data Sources
+[1] https://www.youtube.com/watch?v=Wnsa-KKktQk
+[2] https://www.reddit.com/r/F1Technical/comments/1lbu2uy/how_are_medium_tires_faster_than_softs_in/
+[3] https://www.catapult.com/blog/how-tyre-degradation-affects-race-strategy
+[4] https://www.racefans.net/2025/05/22/how-will-f1s-new-monaco-tyre-rule-work-and-how-might-teams-try-to-exploit-it/
+
+Unlocking Race Edge with LangGraph: The Future of Strategy
+Introduction
+In the high-stakes world of Formula 1, strategic advantage hinges on advanced decision-making capabilities. This briefing previews how adopting LangGraph as an agent framework can revolutionize race strategies by enabling iterative, adaptive, and real-time decision processes. We explore its support for cyclical workflows, multi-agent collaboration, and seamless integration with telemetry data—empowering teams to optimize tire management, fuel loads, and overall race execution. Leveraging these cutting-edge tools promises a transformative edge, turning complex data into actionable insights and elevating race performance to new heights.
+
+The adoption of LangGraph as an agent framework offers transformative benefits across multiple facets of race strategy, particularly in tire management, fuel load optimization, and dynamic decision-making processes. By leveraging its support for cyclical workflows, stateful interactions, and multi-agent orchestration, teams can transition from reactive to proactive, data-driven strategies that adapt seamlessly to the unpredictable and complex environment of Formula 1 racing.
+
+In tire degradation management, LangGraph’s ability to facilitate iterative, looped analysis enables continuous refinement of tire wear predictions. Traditional linear models often fall short in capturing the non-linear, multi-mechanistic nature of tire wear, which involves thermal effects, abrasion, and sliding-induced degradation. The framework’s support for stateful workflows ensures that historical data and real-time telemetry are preserved across multiple cycles, allowing for nuanced, context-aware decision-making. This capability aligns with the need for ongoing assessment during a race, where conditions evolve rapidly, and strategic adjustments are critical [1][2][3].
+
+Furthermore, the integration of machine learning models with multi-season telemetry data enhances predictive accuracy for tire lifespan and optimal pit stop timing. These models incorporate numerous performance indicators—such as temperature gradients, pressure variations, and compound-specific degradation rates—enabling precise, circuit-specific forecasts. Such predictive power surpasses traditional static models, providing real-time insights that inform proactive strategies rather than reactive responses [4][5][6].
+
+Similarly, in fuel load management, LangGraph’s support for event-driven, cyclical workflows allows for iterative optimization of fuel strategies. Small variations in fuel weight significantly impact lap times and vehicle handling, with simulation data indicating that every 10 kg of additional fuel can add approximately 0.3 seconds to lap times [5]. The framework’s ability to respond dynamically to race events—such as safety car periods or environmental changes—ensures that fuel strategies remain flexible and optimized throughout the race. Real-time data analytics combined with precise control over agent interactions facilitate rapid adjustments, maximizing performance while managing safety and efficiency [1][2][3].
+
+Finally, the framework’s capacity to model complex, non-linear dependencies through graph-based architectures supports comprehensive understanding and management of tyre physics and degradation mechanisms. This holistic approach enables teams to formulate nuanced strategies—such as timing pit stops for soft tires with rapid wear or leveraging safety car periods for optimal tyre changes—by continuously integrating telemetry data, environmental conditions, and physical insights [1][3].
+
+In conclusion, LangGraph’s advanced agent capabilities—supporting cyclical workflows, state management, multi-agent orchestration, and real-time responsiveness—empower race teams to develop highly adaptive, predictive, and efficient strategies. This technological shift from reactive to proactive race management promises a significant competitive edge, optimizing performance, safety, and resource utilization in the demanding environment of Formula 1.
+
+Conclusion
+Adopting LangGraph as an agent framework offers a transformative edge in race strategy optimization. Its support for cyclical workflows, robust state management, and seamless integration with telemetry data enables real-time, adaptive decision-making across tire and fuel management domains. By leveraging these capabilities, teams can develop predictive, context-aware systems that continuously refine strategies, respond swiftly to race dynamics, and maximize performance. Embracing LangGraph positions your organization at the forefront of data-driven racing innovation, ensuring a competitive advantage through smarter, more responsive race strategies.
+
+Data Sources
+[1] https://medium.com/@ken_lin/langgraph-a-framework-for-building-stateful-multi-agent-llm-applications-a51d5eb68d03
+[2] https://docs.langchain.com/oss/python/langgraph/overview
+[3] https://www.3pillarglobal.com/insights/blog/comparison-crewai-langgraph-n8n/
+[4] https://www.raceteq.com/articles/2024/08/the-science-behind-tyre-degradation-in-formula-1
+[5] https://medium.com/formula-one-forever/underrated-stat-why-tire-wear-is-more-predictive-than-qualifying-c0cbf9f31231
+[6] https://en.wikipedia.org/wiki/Semantic_Web
+```
+
+
